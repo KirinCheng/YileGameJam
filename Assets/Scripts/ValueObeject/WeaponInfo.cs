@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "WeaponInfoSetting", menuName = "Create Data Weapon")]
 public class WeaponInfoSetting : ScriptableObject
 {
-    public WeaponInfo[] weaponInfo;
+    public WeaponInfo weaponInfo;
 }
 
 [System.Serializable]
@@ -24,7 +24,9 @@ public class WeaponInfo
     [Header("攻擊力")]
     public int attack;
     [Header("攻擊範圍")]
-    public int attackRange;
+    public float attackRange;
+    [Header("攻擊後搖時間")]
+    public float attackDuration;
     [Header("擊退力")]
-    public int backOffPower;
+    public float backOffPower;
 }

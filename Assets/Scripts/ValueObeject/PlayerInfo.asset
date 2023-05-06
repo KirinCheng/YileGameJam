@@ -15,9 +15,10 @@ MonoBehaviour:
   characterSprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   hp: 100
   moveSpeed: 3
-  damagedRecoveryTime: 0.5
-  anim_Idle: 
-  anim_Moving: 
-  anim_Attack: 
-  anim_Defence: 
-  anim_Damaged: 
+  damagedRecoveryTime: 0.25
+  defenceDuration: 0.3
+  anim_Idle: Idle
+  anim_Moving: Moving
+  anim_Attack: Attack
+  anim_Defence: Defence
+  anim_Damaged: Damaged

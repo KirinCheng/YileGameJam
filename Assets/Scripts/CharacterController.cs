@@ -10,9 +10,12 @@ public class CharacterController : MonoBehaviour
         Moving,
         Attaking,
         Defencing,
-        underAttack
+        underAttack,
+        Die,
     }
 
+    [SerializeField]
+    private Timer timer;
     [SerializeField]
     protected CharacterStatsInfo characterStatsInfo;
     [SerializeField]
@@ -22,11 +25,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     protected Animator animator;
     [SerializeField]
-    protected SpriteRenderer characterSpriteRender;
+    protected Weapon weapon;
     [SerializeField]
-    protected SpriteRenderer weaponSpriteRenderer;
-
-    private Timer timer = new Timer();
+    protected Transform rootTransform;
 
     protected bool controllLock;
     protected int curHP;
@@ -37,59 +38,21 @@ public class CharacterController : MonoBehaviour
     protected CharacterState curState;
     protected int characterDirect;
 
+    protected bool gotAttackTarget;
     protected AttackInfo attackersInfo;
+
+    [SerializeField]
+    private WeaponInfo fakeInfo;
+
+    public LayerMask mask;
 
     private void Awake()
     {
         realtimeStatsInfo = characterStatsInfo;
+        curHP = realtimeStatsInfo.hp;
+        GetWeapon(fakeInfo);
     }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        InputCheck();
-        CharacterActions();
-    }
-    protected virtual void InputCheck()
-    {
-        if (controllLock)
-            return;
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            curState = CharacterState.Defencing;
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            curState = CharacterState.Attaking;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            TurnFaceRight();
-            curState = CharacterState.Moving;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            TurnFaceLeft();
-            curState = CharacterState.Moving;
-        }
-        if (!Input.anyKey)
-        {
-            curState = CharacterState.Idle;
-        }
-
-        //======TestCode========
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Debug.Log("Test GetDamged");
-            AttackInfo attackInfo = new AttackInfo(10,new Vector2(10,0),0.1f);
-            GotAttacked(attackInfo);
-        }
-
-    }
+    
     protected virtual void CharacterActions()
     {
         switch (curState)
@@ -107,35 +70,48 @@ public class CharacterController : MonoBehaviour
                 DoDefence();
                 break;
             case CharacterState.underAttack:
-                DoDamaged();
-                break;
-            default:
                 break;
         }
     }
 
     protected virtual void DoIdle()
     {
-        Debug.Log("Do Idle");
         animator.Play(realtimeStatsInfo.anim_Idle);
         rigidbody.velocity = Vector2.zero;
     }
     protected virtual void DoMove()
     {
-        Debug.Log("Do Move");
         animator.Play(realtimeStatsInfo.anim_Moving);
         rigidbody.velocity = new Vector2(characterDirect * realtimeStatsInfo.moveSpeed , 0);
     }
     protected virtual void DoAttack()
     {
-        Debug.Log("Do Attack");
+        if (gotAttackTarget)
+            return;
+        controllLock = true;
+        timer.TimerCountDown(curWeaponInfo.attackDuration, () => {
+            gotAttackTarget = false;
+            ControllLockRecovery(); });
         animator.Play(realtimeStatsInfo.anim_Attack);
         rigidbody.velocity = Vector2.zero;
+        CharacterController enemy;
+        var originPos = new Vector2(transform.position.x, transform.position.y + 0.1f);
+        var size = new Vector2(0.1f,1);
+        var target = Physics2D.BoxCast(originPos, size, 0 , Vector2.right * characterDirect,1, mask);
+        if (target)
+        {
+            Debug.Log("Hit");
+            gotAttackTarget = true;
+            enemy = target.transform.GetComponent<CharacterController>();
+            AttackInfo info = new AttackInfo(curWeaponInfo.attack,transform.position,curWeaponInfo.backOffPower);
+            enemy.GotAttacked(info);
+        }
     }
 
     protected virtual void DoDefence()
     {
-        Debug.Log("Do Defence");
+        controllLock = true;
+        timer.TimerCountDown(realtimeStatsInfo.defenceDuration, ControllLockRecovery);
         animator.Play(realtimeStatsInfo.anim_Defence);
         rigidbody.velocity = Vector2.zero;
     }
@@ -144,13 +120,18 @@ public class CharacterController : MonoBehaviour
     {
         curState = CharacterState.underAttack;
         attackersInfo = enemyAtkInfo;
+        curHP -= attackersInfo.damageValue;
+        if (curHP <= 0)
+        {
+            DoDie();
+            return;
+        }
+        DoDamaged();
     }
-
     protected virtual void DoDamaged()
     {
-        Debug.Log("Do Damaged");
         controllLock = true;
-        timer.TimerCountDown(realtimeStatsInfo.damagedRecoveryTime,DamagedRecovery);
+        timer.TimerCountDown(realtimeStatsInfo.damagedRecoveryTime,ControllLockRecovery);
         animator.Play(realtimeStatsInfo.anim_Damaged);
         var enemyPosDifference = (attackersInfo.attackerPos.x - this.transform.position.x);
         if (enemyPosDifference >= 0)
@@ -158,37 +139,36 @@ public class CharacterController : MonoBehaviour
         else
             TurnFaceLeft();
         rigidbody.AddForce(new Vector2(attackersInfo.backOffPower * characterDirect * -1,0),ForceMode2D.Impulse);
-        curHP -= attackersInfo.damageValue;
     }
 
-    protected virtual void DamagedRecovery()
+    protected virtual void DoDie()
+    {
+        DestroyImmediate(this.gameObject);
+    }
+
+    protected virtual void ControllLockRecovery()
     {
         controllLock = false;
         curState = CharacterState.Idle;
     }
+
     protected virtual void GetWeapon(WeaponInfo info)
     {
         curWeaponInfo = info;
         curWeaponDurability = info.totalDurability;
-        weaponSpriteRenderer.sprite = info.weaponSprite;
+        weapon.SetSprite(info.weaponSprite);
     }
 
     #region Sub Methods
     protected void TurnFaceRight()
     {
         characterDirect = 1;
-        characterSpriteRender.flipX = false;
-        weaponSpriteRenderer.flipX = false;
-        var weaponXpos = weaponSpriteRenderer.transform.localPosition.x >= 0 ? weaponSpriteRenderer.transform.localPosition.x : Mathf.Abs(weaponSpriteRenderer.transform.localPosition.x);
-        weaponSpriteRenderer.transform.localPosition = new Vector2(weaponXpos, weaponSpriteRenderer.transform.localPosition.y);
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
     protected void TurnFaceLeft()
     {
         characterDirect = -1;
-        characterSpriteRender.flipX = true;
-        weaponSpriteRenderer.flipX = true;
-        var weaponXpos = weaponSpriteRenderer.transform.localPosition.x < 0? weaponSpriteRenderer.transform.localPosition.x : weaponSpriteRenderer.transform.localPosition.x * -1;
-        weaponSpriteRenderer.transform.localPosition = new Vector2(weaponXpos, weaponSpriteRenderer.transform.localPosition.y);
+        transform.localRotation = Quaternion.Euler(0,180,0);
     }
 
     #endregion
