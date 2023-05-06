@@ -4,6 +4,8 @@ using UnityEngine;
 public class MonsterSpawnPointController : MonoBehaviour
 {
     [SerializeField]
+    private GameManager gameManager;
+    [SerializeField]
     private MonsterController monsterPrefab;
     [SerializeField]
     private Timer timer;
@@ -14,6 +16,11 @@ public class MonsterSpawnPointController : MonoBehaviour
 
 
     void Start()
+    {
+        
+    }
+
+    public void MonsterHasSpawn()
     {
         InvokeRepeating("SpawnMonster", spawnTimeInterval, spawnTimeInterval);
     }
@@ -28,6 +35,7 @@ public class MonsterSpawnPointController : MonoBehaviour
 
     private void MonsterDieCallback(MonsterController monster)
     {
+        gameManager.AttackGate();
         monsters.Remove(monster);
         DestroyImmediate(monster.gameObject);
     }
