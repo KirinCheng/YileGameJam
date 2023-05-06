@@ -41,3 +41,36 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Game0
+    uniqueID: 3070926647
+    locked: 0
+  - name: Game1
+    uniqueID: 3973759289
+    locked: 0
+  - name: Game2
+    uniqueID: 1244072213
+    locked: 0
+  - name: Game3
+    uniqueID: 562098129
+    locked: 0
+  - name: Game4
+    uniqueID: 1531014595
+    locked: 0
+  - name: Game5
+    uniqueID: 1867653483
+    locked: 0
+  - name: Game6
+    uniqueID: 1139878123
+    locked: 0
+  - name: Game7
+    uniqueID: 564931401
+    locked: 0
+  - name: Game8
+    uniqueID: 3132981649
+    locked: 0
+  - name: Game9
+    uniqueID: 3070013347
+    locked: 0
+  - name: Game10
+    uniqueID: 250500367
+    locked: 0
