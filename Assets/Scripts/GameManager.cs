@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         megami.SetSlide(money);
         megami.Show();
         announcement.Close();
+        gotWeaponView.Hide();
     }
     public void ResetGame()
     {

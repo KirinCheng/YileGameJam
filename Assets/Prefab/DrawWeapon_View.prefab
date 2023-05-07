@@ -4960,7 +4960,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 250}
-  m_SizeDelta: {x: 0, y: 88.3}
+  m_SizeDelta: {x: 409.92, y: 88.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2798678883647505712
 CanvasRenderer:
@@ -19776,7 +19776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &771594527113878393
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19814,8 +19814,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: {fileID: 7097550599531227265}
   animator: {fileID: 3113256474833449630}
-  realtimeAnimator: {fileID: 0}
   getWeaponAnimaName: DrawWeapon
+  showAnimaDuration: 5
   weaponNameTmp: {fileID: 374110449415879703}
 --- !u!95 &3113256474833449630
 Animator:

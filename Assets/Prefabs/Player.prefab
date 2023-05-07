@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22ac091e11926843addcf52e72c5f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   timer: {fileID: 7055104126629692072}
   characterStatsInfo: {fileID: 11400000, guid: b79901bc80bce4e46a6c8788b38beb18, type: 2}
   collider: {fileID: 7055104126629692073}

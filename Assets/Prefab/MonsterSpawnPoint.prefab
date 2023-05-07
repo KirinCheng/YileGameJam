@@ -62,7 +62,7 @@ MonoBehaviour:
     type: 3}
   monsterWeaponInfo: {fileID: 11400000, guid: 54adc9a85dff94743bf62a191d4a8c67, type: 2}
   timer: {fileID: 5011866841259103276}
-  spawnTimeInterval: 3
+  spawnTimeDefaultInterval: 1
 --- !u!114 &5011866841259103276
 MonoBehaviour:
   m_ObjectHideFlags: 0

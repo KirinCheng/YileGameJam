@@ -11,6 +11,8 @@ public class Megami : MonoBehaviour
     [SerializeField]
     private GameObject megami;
     [SerializeField]
+    private GameObject megamiAngryFace;
+    [SerializeField]
     private Slider payMoneySlider;
     [SerializeField]
     private TMP_Text payMoneyTmp;
@@ -25,6 +27,10 @@ public class Megami : MonoBehaviour
     public void OnSliderValueChange()
     {
         payMoneyTmp.text = payMoneySlider.value.ToString();
+        if (payMoneySlider.value <= 1)
+            megamiAngryFace.SetActive(true);
+        else
+            megamiAngryFace.SetActive(false);
     }
 
     public void PayForWeapon()
