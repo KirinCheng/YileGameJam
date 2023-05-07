@@ -10,6 +10,7 @@ public class CharacterStatsInfo : ScriptableObject
     public float moveSpeed;
     public float damagedRecoveryTime;
     public float defenceDuration;
+    public int dropMoney;
 
     public string anim_Idle;
     public string anim_Moving;

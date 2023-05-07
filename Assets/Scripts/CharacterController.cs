@@ -15,6 +15,8 @@ public class CharacterController : MonoBehaviour
     }
 
     [SerializeField]
+    private GameManager gameManager;
+    [SerializeField]
     private Timer timer;
     [SerializeField]
     protected CharacterStatsInfo characterStatsInfo;
@@ -41,16 +43,12 @@ public class CharacterController : MonoBehaviour
     protected bool gotAttackTarget;
     protected AttackInfo attackersInfo;
 
-    [SerializeField]
-    private WeaponInfo fakeInfo;
-
     public LayerMask mask;
 
     private void Awake()
     {
         realtimeStatsInfo = characterStatsInfo;
         curHP = realtimeStatsInfo.hp;
-        GetWeapon(fakeInfo);
     }
     
     protected virtual void CharacterActions()
@@ -88,9 +86,14 @@ public class CharacterController : MonoBehaviour
     {
         if (gotAttackTarget)
             return;
+        if (curWeaponInfo.isBroken)
+        {
+            gameManager.CallAnnounce("你的鹹魚已經爛掉了",3f);
+        }
         controllLock = true;
         timer.TimerCountDown(curWeaponInfo.attackDuration, () => {
             gotAttackTarget = false;
+            AttackRecovery();
             ControllLockRecovery(); });
         animator.Play(realtimeStatsInfo.anim_Attack);
         rigidbody.velocity = Vector2.zero;
@@ -100,7 +103,6 @@ public class CharacterController : MonoBehaviour
         var target = Physics2D.BoxCast(originPos, size, 0 , Vector2.right * characterDirect,1, mask);
         if (target)
         {
-            Debug.Log("Hit");
             gotAttackTarget = true;
             enemy = target.transform.GetComponent<CharacterController>();
             AttackInfo info = new AttackInfo(curWeaponInfo.attack,transform.position,curWeaponInfo.backOffPower);
@@ -151,12 +153,30 @@ public class CharacterController : MonoBehaviour
         controllLock = false;
         curState = CharacterState.Idle;
     }
+    protected virtual void AttackRecovery()
+    {
+        if (curWeaponInfo.isBroken)
+            return;
+        curWeaponDurability -= curWeaponInfo.injureDurabilityPerAttack;
+        if (curWeaponDurability <= 0)
+        {
+            curWeaponInfo.isBroken = true;
+            curWeaponInfo.attack = 1;
+            curWeaponInfo.backOffPower = 1;
+        }
+    }
 
-    protected virtual void GetWeapon(WeaponInfo info)
+    public virtual void GetWeapon(WeaponInfo info)
     {
         curWeaponInfo = info;
         curWeaponDurability = info.totalDurability;
         weapon.SetSprite(info.weaponSprite);
+    }
+
+    public virtual void ForceStopByManager()
+    {
+        controllLock = true;
+        curState = CharacterState.Idle;
     }
 
     #region Sub Methods

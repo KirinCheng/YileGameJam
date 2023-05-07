@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
+    private Timer timer;
+    [SerializeField]
     private GateHpText gateHpText;
     [SerializeField]
     private MoneyText moneyText;
@@ -12,6 +14,14 @@ public class GameManager : MonoBehaviour
     private Megami megami;
     [SerializeField]
     private MonsterSpawnPointController monterSpawner;
+    [SerializeField]
+    private PlayerController player;
+    [SerializeField]
+    private AnnouncementText announcement;
+    [SerializeField]
+    private GotWeaponView gotWeaponView;
+
+    private WeaponGenerator weaponGenerator = new WeaponGenerator();
 
     public int money;
     [SerializeField]
@@ -19,9 +29,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int totalGateHp;
 
-    void Start()
+    private void Start()
     {
         ResetUI();
+        ResetGame();
     }
 
     void Update()
@@ -33,6 +44,8 @@ public class GameManager : MonoBehaviour
     {
         curGateHp -= value;
         gateHpText.RefreshGateHpUi(curGateHp,totalGateHp);
+        if (curGateHp <= -1)
+            DayEnd();
     }
     public void SetMoney(int value)
     {
@@ -42,7 +55,31 @@ public class GameManager : MonoBehaviour
     public void PrayOrPayTheMegami(int payMoney)
     {
         SetMoney(-payMoney);
+        var weaponInfo = weaponGenerator.Generate(payMoney);
+        player.GetWeapon(weaponInfo);
+        var weaponName = weaponInfo.weaponSubtitle + weaponInfo.weaponName;
+        gotWeaponView.Show(weaponName, GameStartComplete);
+    }
+    private void GameStartComplete()
+    {
         monterSpawner.MonsterHasSpawn();
+    }
+
+    public void CallAnnounce(string text,float duration)
+    {
+        announcement.Announce(text,duration);
+    }
+
+    public void DayEnd()
+    {
+        CallAnnounce("村莊爆開了 你的城門耐久比0還低", 5);
+        player.ForceStopByManager();
+        monterSpawner.ForceStop();
+        timer.TimerCountDown(5,()=> {
+            announcement.Close();
+            ResetUI();
+            ResetGame();
+        });
     }
 
     public void ResetUI()
@@ -50,9 +87,16 @@ public class GameManager : MonoBehaviour
         totalGateHp = 10;
         curGateHp = totalGateHp;
         gateHpText.RefreshGateHpUi(curGateHp,totalGateHp);
-
+        if (money <= 0)
+            money = 1;
         moneyText.RefreshMoney(money);
-
-        megami.SetSlide();
+        megami.SetSlide(money);
+        megami.Show();
+        announcement.Close();
+    }
+    public void ResetGame()
+    {
+        player.ResetPlayer();
+        monterSpawner.MonsterSpawnerReset();
     }
 }

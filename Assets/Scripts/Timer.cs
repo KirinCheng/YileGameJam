@@ -33,4 +33,10 @@ public class Timer : MonoBehaviour
         curTime = Time.time;
         targetTime = Time.time + duration;
     }
+
+    public void StopTimer()
+    {
+        timing = false;
+        callback = null;
+    }
 }

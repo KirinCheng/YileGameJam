@@ -11,18 +11,16 @@ public class Megami : MonoBehaviour
     [SerializeField]
     private GameObject megami;
     [SerializeField]
-    private GameObject yuushaGetTheWeapon;
-    [SerializeField]
     private Slider payMoneySlider;
     [SerializeField]
     private TMP_Text payMoneyTmp;
 
 
-    public void SetSlide()
+    public void SetSlide(int money)
     {
-        payMoneySlider.minValue = 0;
-        payMoneySlider.maxValue = gameManager.money;
-        payMoneySlider.value = 0;
+        payMoneySlider.minValue = 1;
+        payMoneySlider.maxValue = money;
+        payMoneySlider.value = payMoneySlider.minValue;
     }
     public void OnSliderValueChange()
     {
@@ -33,5 +31,10 @@ public class Megami : MonoBehaviour
     {
         gameManager.PrayOrPayTheMegami((int)payMoneySlider.value);
         megami.SetActive(false);
+    }
+
+    public void Show()
+    {
+        megami.SetActive(true);
     }
 }

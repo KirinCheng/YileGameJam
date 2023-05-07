@@ -17,6 +17,7 @@ MonoBehaviour:
   moveSpeed: 3
   damagedRecoveryTime: 0.25
   defenceDuration: 0.3
+  dropMoney: 0
   anim_Idle: Idle
   anim_Moving: Moving
   anim_Attack: Attack

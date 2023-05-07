@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d0604e80537a4ff4881a6182ae5afe7c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9125c204f566db048a92ebcb64d9d14a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: {fileID: 7748735414137049245}
-  characterStatsInfo: {fileID: 11400000, guid: b79901bc80bce4e46a6c8788b38beb18, type: 2}
+  characterStatsInfo: {fileID: 11400000, guid: 2065c38bf46d2134bae5e1cc0d0f4b4f, type: 2}
   collider: {fileID: 7748735414137049247}
   rigidbody: {fileID: 7748735414137049244}
   animator: {fileID: 7748735414048166976}
@@ -264,7 +264,7 @@ MonoBehaviour:
     backOffPower: 0
   mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
 --- !u!70 &7748735414137049247
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

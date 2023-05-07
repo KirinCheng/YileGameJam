@@ -9,6 +9,8 @@ public class WeaponInfoSetting : ScriptableObject
 [System.Serializable]
 public class WeaponInfo
 {
+    [Header("可否破損")]
+    public bool isBroken;
     [Header("武器編號")]
     public int weaponNumber;
     [Header("名稱")]

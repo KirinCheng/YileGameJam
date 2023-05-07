@@ -60,6 +60,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   monsterPrefab: {fileID: 7748735414137049246, guid: 020678684cc98794797dfdfd2eac33b8,
     type: 3}
+  monsterWeaponInfo: {fileID: 11400000, guid: 54adc9a85dff94743bf62a191d4a8c67, type: 2}
   timer: {fileID: 5011866841259103276}
   spawnTimeInterval: 3
 --- !u!114 &5011866841259103276

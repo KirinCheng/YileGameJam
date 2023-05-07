@@ -28,6 +28,16 @@ public class PlayerController : CharacterController
             DoDamaged();
             return;
         }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            Debug.Log("Heavy MachineGun");
+            curWeaponInfo.isBroken = false;
+            curWeaponInfo.attack = 1000;
+            curWeaponDurability = 1000;
+            curWeaponInfo.backOffPower = 100;
+            curWeaponInfo.injureDurabilityPerAttack = 0;
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -54,5 +64,16 @@ public class PlayerController : CharacterController
         curState = CharacterState.Idle;
     }
 
-
+    public void ResetPlayer()
+    {
+        controllLock = false;
+        realtimeStatsInfo = characterStatsInfo;
+        curHP = realtimeStatsInfo.hp;
+        curWeaponInfo = new WeaponInfo();
+        curWeaponDurability = 0;
+        curState = CharacterState.Idle;
+        TurnFaceRight();
+        gotAttackTarget = false;
+        attackersInfo = new AttackInfo(0,transform.position,0);
+    }
 }

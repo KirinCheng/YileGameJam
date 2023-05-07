@@ -6,6 +6,7 @@ using System;
 public class MonsterController : CharacterController
 {
     private Action<MonsterController> monsterDie;
+    public int dropMoney;
 
     private void Start()
     {
@@ -33,5 +34,10 @@ public class MonsterController : CharacterController
     public void SetAction(Action<MonsterController> dieAction)
     {
         monsterDie = dieAction;
+    }
+    protected override void DoDie()
+    {
+        dropMoney = realtimeStatsInfo.dropMoney;
+        monsterDie(this);
     }
 }
