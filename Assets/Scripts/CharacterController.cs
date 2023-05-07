@@ -170,7 +170,7 @@ public class CharacterController : MonoBehaviour
     {
         curWeaponInfo = info;
         curWeaponDurability = info.totalDurability;
-        weapon.SetSprite(info.weaponLevel);
+        weapon.SetSprite(info.level);
     }
 
     public virtual void ForceStopByManager()

@@ -16,38 +16,38 @@ public class WeaponGenerator
                             'name': '鹹魚',
                             'injureDurabilityPerAttack':1,
                             'durabilityWeights': [
-                              { 'prefix':'被咬一口的','value':1,'weight': 100, 'price': 1 }, 
-                              { 'prefix':'剛醃不久的','value':2,'weight': 90, 'price': 5 }, 
-                              { 'prefix':'放一段時間的','value':3,'weight': 80, 'price': 10 },
-                              { 'prefix':'冷凍的','value':4,'weight': 70, 'price': 15 },
-                              { 'prefix':'82年的','value':5,'weight': 60, 'price': 20 }
+                              { 'prefix':'被咬一口的','value':10,'weight': 100, 'price': 1 , 'levelValue':1}, 
+                              { 'prefix':'剛醃不久的','value':20,'weight': 90, 'price': 5, 'levelValue': 2}, 
+                              { 'prefix':'放一段時間的','value':30,'weight': 80, 'price': 10, 'levelValue': 3},
+                              { 'prefix':'冷凍的','value':40,'weight': 70, 'price': 15, 'levelValue': 4},
+                              { 'prefix':'82年的','value':50,'weight': 60, 'price': 20, 'levelValue': 5}
                             ],
                             'attackWeights': [
-                              { 'prefix':'辣的','value':50,'weight': 20, 'price': 20 }, 
-                              { 'prefix':'酸的','value':40,'weight': 30, 'price': 15 }, 
-                              { 'prefix':'苦的','value':30,'weight': 40, 'price': 10 },
-                              { 'prefix':'濕潤的','value':20,'weight': 50, 'price': 5 },
-                              { 'prefix':'腐爛的','value':1,'weight': 60, 'price': 1 }
+                              { 'prefix':'辣的','value':11,'weight': 20, 'price': 20, 'levelValue': 5}, 
+                              { 'prefix':'酸的','value':8,'weight': 30, 'price': 15, 'levelValue': 4}, 
+                              { 'prefix':'苦的','value':7,'weight': 40, 'price': 10, 'levelValue': 3},
+                              { 'prefix':'濕潤的','value':5,'weight': 50, 'price': 5, 'levelValue': 2},
+                              { 'prefix':'腐爛的','value':3,'weight': 60, 'price': 1 , 'levelValue':1}
                             ]
                           },
                           {
                             'bottom':40,
-                         'upper':160,
+                         'upper':999999999,
                             'name': '金槍魚',
                             'injureDurabilityPerAttack':1,
                             'durabilityWeights': [
-                              { 'prefix':'壞掉的','value':10,'weight': 100, 'price': 40 }, 
-                              { 'prefix':'新鮮的','value':15,'weight': 90, 'price': 50 }, 
-                              { 'prefix':'剛進冰庫的','value':20,'weight': 80, 'price': 60 },
-                              { 'prefix':'冷凍的','value':25,'weight': 70, 'price': 70 },
-                              { 'prefix':'82年的','value':30,'weight': 60, 'price': 80 }
+                              { 'prefix':'壞掉的','value':20,'weight': 100, 'price': 40, 'levelValue': 3}, 
+                              { 'prefix':'新鮮的','value':30,'weight': 90, 'price': 50, 'levelValue': 5}, 
+                              { 'prefix':'剛進冰庫的','value':40,'weight': 80, 'price': 60, 'levelValue': 8},
+                              { 'prefix':'冷凍的','value':50,'weight': 70, 'price': 70, 'levelValue': 11},
+                              { 'prefix':'82年的','value':60,'weight': 60, 'price': 80, 'levelValue': 14}
                             ],
                             'attackWeights': [
-                              { 'prefix':'辣的','value':50,'weight': 40, 'price': 80 }, 
-                              { 'prefix':'酸的','value':40,'weight': 60, 'price': 70 }, 
-                              { 'prefix':'苦的','value':30,'weight': 80, 'price': 60 },
-                              { 'prefix':'濕潤的','value':20,'weight': 100, 'price': 50 },
-                              { 'prefix':'腐爛的','value':1,'weight': 120, 'price': 40 }
+                              { 'prefix':'辣的','value':50,'weight': 40, 'price': 80, 'levelValue': 14}, 
+                              { 'prefix':'酸的','value':40,'weight': 60, 'price': 70, 'levelValue': 11}, 
+                              { 'prefix':'苦的','value':30,'weight': 80, 'price': 60, 'levelValue': 8},
+                              { 'prefix':'濕潤的','value':20,'weight': 100, 'price': 50, 'levelValue': 5},
+                              { 'prefix':'腐爛的','value':6,'weight': 120, 'price': 40, 'levelValue': 3}
                             ]
                           }]";
 
@@ -55,7 +55,19 @@ public class WeaponGenerator
 
         this.weaponJsonDatas = weaponJsonDatas2;
     }
+    public int FindLevel(int totalWeight)
+    {
+        if (totalWeight > 0 && totalWeight <= 100)
+            return 2;
 
+        if (totalWeight > 100 && totalWeight <= 130)
+            return 1;
+
+        if (totalWeight > 130 && totalWeight <= 999999)
+            return 0;
+
+        return 0;
+    }
     public AttackWeight GetAttack(WeaponJsonData weaponJsonData, Price newPrice)
     {
         if (newPrice.money < 1)
@@ -122,7 +134,7 @@ public class WeaponGenerator
         DurabilityWeight durabilityWeight = GetDurability(weaponJsonDataSecond, newPrice);
         WeaponInfo weaponInfo = new WeaponInfo();
         weaponInfo.isBroken = false;
-        weaponInfo.weaponLevel = 0;
+        weaponInfo.weaponNumber = 0;
         weaponInfo.weaponName = weaponJsonData.name;
         weaponInfo.weaponSubtitle = attackWeight.prefix + durabilityWeight.prefix;
         weaponInfo.totalDurability = durabilityWeight.value;
@@ -131,6 +143,7 @@ public class WeaponGenerator
         weaponInfo.attackRange = 2;
         weaponInfo.attackDuration = 0.4f;
         weaponInfo.backOffPower = 8;
+        weaponInfo.level = FindLevel(attackWeight.weight + durabilityWeight.weight);
 
         return weaponInfo;
     }
@@ -157,6 +170,7 @@ public class DurabilityWeight
     public int value { get; set; }
     public int weight { get; set; }
     public int price { get; set; }
+    public int levelValue { get; set; }
 
     public DurabilityWeight()
     {
@@ -171,6 +185,7 @@ public class AttackWeight
     public int value { get; set; }
     public int weight { get; set; }
     public int price { get; set; }
+    public int levelValue { get; set; }
 
     public AttackWeight()
     {

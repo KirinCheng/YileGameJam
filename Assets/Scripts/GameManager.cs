@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         var weaponInfo = weaponGenerator.Generate(payMoney);
         player.GetWeapon(weaponInfo);
         var weaponName = weaponInfo.weaponSubtitle + weaponInfo.weaponName;
-        gotWeaponView.Show(weaponName, GameStartComplete);
+        gotWeaponView.Show(weaponName,weaponInfo.level, GameStartComplete);
     }
     private void GameStartComplete()
     {

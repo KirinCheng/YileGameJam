@@ -12,7 +12,7 @@ public class WeaponInfo
     [Header("可否破損")]
     public bool isBroken;
     [Header("武器編號")]
-    public int weaponLevel;
+    public int weaponNumber;
     [Header("名稱")]
     public string weaponName;
     [Header("圖片")]

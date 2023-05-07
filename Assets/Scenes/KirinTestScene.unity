@@ -326,6 +326,35 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8274921693741652066, guid: 00b782efaa2a1a349baeb3a6154383e1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dd8207ecfbef8254a9853a0a7fe81ff4,
+        type: 3}
+    - target: {fileID: 9044778943490068262, guid: 00b782efaa2a1a349baeb3a6154383e1,
+        type: 3}
+      propertyPath: weaponImage
+      value: 
+      objectReference: {fileID: 222312134}
+    - target: {fileID: 9044778943490068262, guid: 00b782efaa2a1a349baeb3a6154383e1,
+        type: 3}
+      propertyPath: weaponImageLevel1
+      value: 
+      objectReference: {fileID: 21300000, guid: dd8207ecfbef8254a9853a0a7fe81ff4,
+        type: 3}
+    - target: {fileID: 9044778943490068262, guid: 00b782efaa2a1a349baeb3a6154383e1,
+        type: 3}
+      propertyPath: weaponImageLevel2
+      value: 
+      objectReference: {fileID: 21300000, guid: 4200e2d7bbcce5349b7701275084768d,
+        type: 3}
+    - target: {fileID: 9044778943490068262, guid: 00b782efaa2a1a349baeb3a6154383e1,
+        type: 3}
+      propertyPath: weaponImageLevel3
+      value: 
+      objectReference: {fileID: 21300000, guid: 9b48d5ed6df1e7a44acb0df72ef019ff,
+        type: 3}
     - target: {fileID: 9071542475323733511, guid: 00b782efaa2a1a349baeb3a6154383e1,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -361,6 +390,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e22ac091e11926843addcf52e72c5f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &222312134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8274921693741652066, guid: 00b782efaa2a1a349baeb3a6154383e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 140539211}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &368035734
