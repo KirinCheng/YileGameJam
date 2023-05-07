@@ -22,11 +22,13 @@ public class Megami : MonoBehaviour
     {
         payMoneySlider.minValue = 1;
         payMoneySlider.maxValue = money;
-        payMoneySlider.value = payMoneySlider.minValue;
+        payMoneySlider.value = payMoneySlider.maxValue;
     }
     public void OnSliderValueChange()
     {
         payMoneyTmp.text = payMoneySlider.value.ToString();
+        if (gameManager.day <= 1)
+            return;
         if (payMoneySlider.value <= 1)
             megamiAngryFace.SetActive(true);
         else

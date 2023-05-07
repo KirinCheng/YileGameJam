@@ -122,12 +122,13 @@ public class WeaponGenerator
         DurabilityWeight durabilityWeight = GetDurability(weaponJsonDataSecond, newPrice);
         WeaponInfo weaponInfo = new WeaponInfo();
         weaponInfo.isBroken = false;
+        weaponInfo.weaponLevel = 0;
         weaponInfo.weaponName = weaponJsonData.name;
         weaponInfo.weaponSubtitle = attackWeight.prefix + durabilityWeight.prefix;
         weaponInfo.totalDurability = durabilityWeight.value;
         weaponInfo.injureDurabilityPerAttack = weaponJsonData.injureDurabilityPerAttack;
         weaponInfo.attack = attackWeight.value;
-        weaponInfo.attackRange = 1;
+        weaponInfo.attackRange = 2;
         weaponInfo.attackDuration = 0.4f;
         weaponInfo.backOffPower = 8;
 

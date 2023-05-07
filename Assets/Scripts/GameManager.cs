@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private MoneyText moneyText;
     [SerializeField]
+    private DayText dayText;
+    [SerializeField]
     private Megami megami;
     [SerializeField]
     private MonsterSpawnPointController monterSpawner;
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private WeaponGenerator weaponGenerator = new WeaponGenerator();
 
+    public int day;
     public int money;
     [SerializeField]
     private int curGateHp;
@@ -62,6 +65,8 @@ public class GameManager : MonoBehaviour
     }
     private void GameStartComplete()
     {
+        string dayString = "Day." + day ;
+        CallAnnounce(dayString, 3);
         monterSpawner.MonsterHasSpawn();
     }
 
@@ -84,6 +89,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetUI()
     {
+        day++;
+        dayText.RefreshDay(day);
         totalGateHp = 10;
         curGateHp = totalGateHp;
         gateHpText.RefreshGateHpUi(curGateHp,totalGateHp);

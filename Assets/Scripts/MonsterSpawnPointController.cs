@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterSpawnPointController : MonoBehaviour
@@ -14,26 +15,31 @@ public class MonsterSpawnPointController : MonoBehaviour
     [SerializeField]
     private float spawnTimeDefaultInterval;
     private float spawnTimeInterval;
+    [SerializeField]
+    private float reducePerspawnInterval;
 
     private List<MonsterController> monsters = new List<MonsterController>();
 
     public void MonsterHasSpawn()
     {
-        InvokeRepeating("SpawnMonster", spawnTimeInterval, spawnTimeInterval);
+        StartCoroutine(SpawnMonster());
     }
     public void MonsterStopSpawn()
     {
         spawnTimeInterval = spawnTimeDefaultInterval;
-        CancelInvoke();
+        StopAllCoroutines();
     }
 
-    private void SpawnMonster()
+    private IEnumerator SpawnMonster()
     {
         MonsterController monster = Instantiate(monsterPrefab, transform);
         monster.transform.position = transform.position;
         monster.SetAction(MonsterDieCallback);
         monster.GetWeapon(monsterWeaponInfo.weaponInfo);
         monsters.Add(monster);
+        yield return new WaitForSeconds(spawnTimeInterval);
+        spawnTimeInterval -= reducePerspawnInterval;
+        MonsterHasSpawn();
     }
 
     private void MonsterDieCallback(MonsterController monster)
@@ -54,6 +60,7 @@ public class MonsterSpawnPointController : MonoBehaviour
         }
         monsters = new List<MonsterController>();
         MonsterStopSpawn();
+        spawnTimeInterval = spawnTimeDefaultInterval;
     }
 
     public void ForceStop()

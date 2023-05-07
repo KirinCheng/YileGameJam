@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class MoneyText : MonoBehaviour
 {
     [SerializeField]
-    private Text moneyText;
+    private TMP_Text moneyText;
 
     public void RefreshMoney(int getValue)
     {
-        moneyText.text = getValue.ToString();
+        moneyText.text = getValue.ToString() + "$";
     }
 }
