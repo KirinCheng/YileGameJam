@@ -31,4 +31,6 @@ public class WeaponInfo
     public float attackDuration;
     [Header("擊退力")]
     public float backOffPower;
+    [Header("等級")]
+    public int level;
 }
