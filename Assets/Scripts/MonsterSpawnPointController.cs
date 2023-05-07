@@ -9,16 +9,28 @@ public class MonsterSpawnPointController : MonoBehaviour
     [SerializeField]
     private MonsterController monsterPrefab;
     [SerializeField]
+    private CharacterStatsInfo monsterStatsInfo;
+    private CharacterStatsInfo realtimeMonsterStatsInfo;
+    [SerializeField]
     private WeaponInfoSetting monsterWeaponInfo;
+    private WeaponInfoSetting realTimeMonsterWeaponInfo;
     [SerializeField]
     private Timer timer;
     [SerializeField]
     private float spawnTimeDefaultInterval;
     private float spawnTimeInterval;
     [SerializeField]
-    private float reducePerspawnInterval;
+    private float intervalReducePerSpawn;
+    [SerializeField]
+    private int monsterHpAddPerSpawn;
 
     private List<MonsterController> monsters = new List<MonsterController>();
+
+    private void Awake()
+    {
+        realtimeMonsterStatsInfo = monsterStatsInfo;
+        realTimeMonsterWeaponInfo = monsterWeaponInfo;
+    }
 
     public void MonsterHasSpawn()
     {
@@ -35,10 +47,12 @@ public class MonsterSpawnPointController : MonoBehaviour
         MonsterController monster = Instantiate(monsterPrefab, transform);
         monster.transform.position = transform.position;
         monster.SetAction(MonsterDieCallback);
-        monster.GetWeapon(monsterWeaponInfo.weaponInfo);
+        monster.GetWeapon(realTimeMonsterWeaponInfo.weaponInfo);
         monsters.Add(monster);
         yield return new WaitForSeconds(spawnTimeInterval);
-        spawnTimeInterval -= reducePerspawnInterval;
+        if(spawnTimeInterval>1)
+            spawnTimeInterval -= intervalReducePerSpawn;
+        realtimeMonsterStatsInfo.hp += monsterHpAddPerSpawn;
         MonsterHasSpawn();
     }
 

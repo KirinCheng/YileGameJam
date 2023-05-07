@@ -55,16 +55,16 @@ public class WeaponGenerator
 
         this.weaponJsonDatas = weaponJsonDatas2;
     }
-    public int FindLevel(int totalWeight)
+    public int FindLevel(int totalLevelValue)
     {
-        if (totalWeight > 0 && totalWeight <= 100)
-            return 2;
+        if (totalLevelValue > 0 && totalLevelValue <= 8)
+            return 0;
 
-        if (totalWeight > 100 && totalWeight <= 130)
+        if (totalLevelValue > 8 && totalLevelValue <= 16)
             return 1;
 
-        if (totalWeight > 130 && totalWeight <= 999999)
-            return 0;
+        if (totalLevelValue > 16 && totalLevelValue <= 999999)
+            return 2;
 
         return 0;
     }
@@ -143,7 +143,7 @@ public class WeaponGenerator
         weaponInfo.attackRange = 2;
         weaponInfo.attackDuration = 0.4f;
         weaponInfo.backOffPower = 8;
-        weaponInfo.level = FindLevel(attackWeight.weight + durabilityWeight.weight);
+        weaponInfo.level = FindLevel(attackWeight.levelValue + durabilityWeight.levelValue);
 
         return weaponInfo;
     }

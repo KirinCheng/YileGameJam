@@ -40,4 +40,9 @@ public class MonsterController : CharacterController
         dropMoney = realtimeStatsInfo.dropMoney;
         monsterDie(this);
     }
+
+    public void SetStatsInfo()
+    {
+        
+    }
 }

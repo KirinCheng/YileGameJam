@@ -1014,7 +1014,7 @@ MonoBehaviour:
   announcement: {fileID: 1730638283}
   gotWeaponView: {fileID: 140539212}
   day: 0
-  money: 0
+  money: 358
   curGateHp: 0
   totalGateHp: 0
 --- !u!4 &1263782649
